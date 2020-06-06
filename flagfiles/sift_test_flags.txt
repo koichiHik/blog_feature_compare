@@ -1,0 +1,22 @@
+
+## Sample Image Path
+--image_path=./data/sample.jpg
+
+## Const Parameters
+--kMaxScaledDim=3600
+--kNumSiftDimensions=128
+
+## Sift Parameters
+--num_octaves=-1
+--num_levels=3
+--def_first_octave=-1
+
+--peak_threshold=1.2
+--edge_threshold=10.0
+--norm_threshold=0.0
+--magnif=3.0
+--window_size=2.0
+
+--root_sift=false
+--upright_sift=false
+
