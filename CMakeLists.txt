@@ -69,16 +69,16 @@ target_compile_definitions(${TARGET}
 
 ############# Computation time compare for each method. #################
 # Source files.
-#
-#et(TARGET "feature_compare_test")
-#set(SRC src/feature_compare_test.cc src/brute_force_matcher.cc src/flann_matcher.cc)
-#
+set(TARGET "nearest_neighbor_perf_test")
+set(SRC src/nearest_neighbor_perf_test.cc 
+        src/cascade_hashing_matcher.cc)
+
 # Generate Exe Files
-#add_executable(${TARGET} ${SRC})
-#target_link_libraries(${TARGET} ${GFLAGS_LIBRARIES})
-#target_link_libraries(${TARGET} ${GLOG_LIBRARIES})
-#target_link_libraries(${TARGET} ${OpenCV_LIBS})
+add_executable(${TARGET} ${SRC})
+target_link_libraries(${TARGET} ${GFLAGS_LIBRARIES})
+target_link_libraries(${TARGET} ${GLOG_LIBRARIES})
+target_link_libraries(${TARGET} ${OpenCV_LIBS})
 
 # Macro Definition
-#target_compile_definitions(${TARGET}
-#    PRIVATE PRJ_FOLDER_PATH="${CMAKE_SOURCE_DIR}")
+target_compile_definitions(${TARGET}
+    PRIVATE PRJ_FOLDER_PATH="${CMAKE_SOURCE_DIR}")

@@ -70,6 +70,8 @@ int main(int argc, char** argv) {
     cv::setRNGSeed(0);
     cv::randShuffle(shuffled_indices);
 
+    // descriptors1 = descriptors1 / 255.0;
+
     for (int i = 0; i < keypoints1.size(); i++) {
       int shuffled_idx = shuffled_indices[i];
       keypoints2[shuffled_idx] = keypoints1[i];
@@ -77,6 +79,7 @@ int main(int argc, char** argv) {
     }
   }
 
+  /*
   // 3. Match based on Brute Force Matcher
   std::vector<std::vector<cv::DMatch>> org_matches;
   {
@@ -85,17 +88,23 @@ int main(int argc, char** argv) {
     cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
     matcher->knnMatch(descriptors1, descriptors2, org_matches, 1, cv::noArray());
   }
+  */
 
   // X. Match based on Cascade Hashing Matcher.
+  std::vector<cv::DMatch> hashed_match;
   {
-
+    cv_copy::CascadeHashingMatcher matcher;
+    matcher.Initialize(descriptors1.cols);
+    cv_copy::HashedImage hashed_image1 = matcher.CreateHashedSiftDescriptors(descriptors1);
+    cv_copy::HashedImage hashed_image2 = matcher.CreateHashedSiftDescriptors(descriptors2);
+    matcher.MatchImages(hashed_image1, descriptors1, hashed_image2, descriptors2, -1, hashed_match);
   }
 
   // 4. Result Confirmation.
   {
     int match_failed_cnt = 0;
-    for (auto match : org_matches) {
-      if (match[0].trainIdx != shuffled_indices[match[0].queryIdx]) {
+    for (auto match : hashed_match) {
+      if (match.trainIdx != shuffled_indices[match.queryIdx]) {
         match_failed_cnt++;
       }
     }
